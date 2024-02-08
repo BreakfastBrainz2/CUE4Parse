@@ -18,6 +18,7 @@ namespace CUE4Parse.UE4.Assets.Objects
         public bool HasPropertyGuid;
         public FGuid? PropertyGuid;
         public FPropertyTagType? Tag;
+        public long TagOffset;
 
         public FPropertyTag(FAssetArchive Ar, PropertyInfo info, ReadType type)
         {
@@ -31,7 +32,9 @@ namespace CUE4Parse.UE4.Assets.Objects
             var pos = Ar.Position;
             try
             {
+                long arTagPos = Ar.Position;
                 Tag = FPropertyTagType.ReadPropertyTagType(Ar, PropertyType.Text, TagData, type);
+                TagOffset = arTagPos;
             }
             catch (ParserException e)
             {
@@ -66,7 +69,9 @@ namespace CUE4Parse.UE4.Assets.Objects
                 var finalPos = pos + Size;
                 try
                 {
+                    long arTagPos = Ar.Position;
                     Tag = FPropertyTagType.ReadPropertyTagType(Ar, PropertyType.Text, TagData, ReadType.NORMAL);
+                    TagOffset = arTagPos;
 #if DEBUG
                     if (finalPos != Ar.Position)
                     {

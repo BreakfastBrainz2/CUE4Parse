@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using CUE4Parse.UE4.Assets.Exports;
 using CUE4Parse.UE4.Assets.Readers;
@@ -79,6 +79,8 @@ namespace CUE4Parse.UE4.Assets.Objects
 
             foreach (var property in value.Properties)
             {
+                writer.WritePropertyName("DataOffset");
+                writer.WriteValue(property.TagOffset);
                 writer.WritePropertyName(property.Name.Text);
                 serializer.Serialize(writer, property.Tag);
             }
